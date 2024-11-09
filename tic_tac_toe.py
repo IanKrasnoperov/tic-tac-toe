@@ -1,7 +1,10 @@
-playing_field = [" ", "0", "1", "2", "0", "&1", "&2", "&3", "1", "&5", "&6", "&7", "2", "&8", "&9", "&10"]
+from symbol import continue_stmt
+
+playing_field = [" ", "0", "1", "2", "0", "&1", "&2", "&3", "1", "&5", "&6", "&7", "2", "&9", "&10", "&11"]
 winning_combinations = [[5, 6, 7], [9, 10, 11], [13, 14, 15], [7, 10, 13], [5, 10, 15], [6, 10, 14], [5, 9, 13],
                         [7, 11, 15]]
 step_index = [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
+step_list = ["1", "2", "3", "5", "6", "7", "9", "10", "11"]
 
 
 def print_playing_field():
@@ -27,7 +30,8 @@ def print_playing_field():
 
 
 def step_playing_field(step, symbol):
-    playing_field[step + 4] = symbol
+    playing_field[int(step) + 4] = symbol
+
 
 
 def get_result():
@@ -45,13 +49,20 @@ player1 = True
 
 while game_over == False:
     print_playing_field()
-
     if player1 == True:
-        step = int(input("Человек 1, ваш ход. Ваш символ 'X'. Введите цифру после знака & на игровом поле"))
+        step = input("Человек 1, ваш ход. Ваш символ 'X'. Введите цифру после знака & на игровом поле")
+        if str(step) not in step_list:
+            print("Введите число в диапазоне", step_list)
+            continue
         symbol = "X"
+        step_list.pop(step_list.index(str(step)))
     else:
-        step = int(input("Человек 2, ваш ход. Ваш символ 'O'. Введите цифру после знака & на игровом поле"))
+        step = input("Человек 2, ваш ход. Ваш символ 'O'. Введите цифру после знака & на игровом поле")
+        if step not in step_list:
+            print("Введите число в диапазоне", step_list)
+            continue
         symbol = "O"
+        step_list.pop(step_list.index(str(step)))
 
     step_playing_field(step, symbol)
     winner = get_result()
